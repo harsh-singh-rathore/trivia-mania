@@ -12,7 +12,7 @@
         android:icon="@drawable/ic_baseline_person_24"
         android:id="@+id/profile"/>
     <item
-        android:title="Settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:id="@+id/settings"/>
+        android:title="Scoreboard"
+        android:icon="@drawable/ic_baseline_score_24"
+        android:id="@+id/score" />
 </menu>
