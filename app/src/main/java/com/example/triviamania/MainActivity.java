@@ -1,32 +1,49 @@
 package com.example.triviamania;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    Button btnLogOut;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        // Initialize Firebase Auth
+        btnLogOut = findViewById(R.id.btnLogout);
         mAuth = FirebaseAuth.getInstance();
+
+        btnLogOut.setOnClickListener(view ->{
+            mAuth.signOut();
+            startActivity(new Intent(MainActivity.this, activity_login.class));
+        });
+
+
     }
+
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser == null){
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null){
             startActivity(new Intent(MainActivity.this, activity_login.class));
         }
     }
