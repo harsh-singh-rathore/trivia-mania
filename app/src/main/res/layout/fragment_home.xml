@@ -5,18 +5,39 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment"
     android:orientation="vertical"
-    android:weightSum="4">
+    android:weightSum="4"
+    android:padding="16dp">
 
     <!-- TODO: Update blank fragment layout -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"/>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="hello this is home"
-        android:layout_weight="2"
-        android:gravity="center"/>
+        android:layout_height="wrap_content"
+        android:text="Select the difficulty level to start the quiz"
+        style="@style/headerTextStyle"
+        android:layout_weight="0.5"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Difficulty"
+        android:textSize="25sp"
+        android:layout_weight="0.2"
+        android:paddingLeft="10dp"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/difficultySpinner"
+        android:autofillHints="difficultyLevel"
+        android:layout_weight="0.2" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/startQuizButton"
+        android:layout_gravity="center"
+        android:background="@drawable/curved_button"
+        android:text="Start Quiz"
+        android:padding="16dp"/>
+
+
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>
