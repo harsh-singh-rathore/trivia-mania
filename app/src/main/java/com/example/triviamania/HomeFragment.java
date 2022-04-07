@@ -1,5 +1,6 @@
 package com.example.triviamania;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -81,7 +82,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String difficulty = spinner.getSelectedItem().toString().toLowerCase(Locale.ROOT);
-                Log.i("BUTTON PRESS KIYA RE", difficulty);
+                Intent intent = new Intent(getContext(), quizActivity.class);
+                intent.putExtra("difficulty", difficulty);
+                startActivity(intent);
             }
         });
 
