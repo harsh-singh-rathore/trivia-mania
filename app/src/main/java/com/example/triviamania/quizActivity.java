@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class quizActivity extends AppCompatActivity {
 
     ListView options;
+    int score_of10 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,8 @@ public class quizActivity extends AppCompatActivity {
         optionList.add("Sameer");
 
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.simple_list)
+        customOptionList optionListAdapter = new customOptionList(this, optionList);
+        options.setAdapter(optionListAdapter);
 
     }
 }

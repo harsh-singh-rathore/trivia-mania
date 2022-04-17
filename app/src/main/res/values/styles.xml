@@ -10,4 +10,9 @@
         <item name="android:textColor">@color/blue_dark</item>
         <item name="android:textAlignment">center</item>
     </style>
+    <style name="profileText">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/blue_dark</item>
+        <item name="android:textAlignment">center</item>
+    </style>
 </resources>

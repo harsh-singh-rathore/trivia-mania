@@ -3,16 +3,32 @@ package com.example.triviamania;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +40,8 @@ public class ProfileFragment extends Fragment {
 
     Button btnLogOut;
     FirebaseAuth mAuth;
+    String userEmail;
+    TextView usrNameEt, usrPhoneEt, usrEmailEt, usrScoreEt;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -67,13 +85,61 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    private void getUser() {
+
+        if (mAuth.getCurrentUser() != null){
+            userEmail = mAuth.getCurrentUser().getEmail();
+        }
+
+        DatabaseReference ref = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users");
+
+
+        Query checkUser = ref.orderByChild("email").equalTo(userEmail);
+        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    String userEmail = mAuth.getCurrentUser().getEmail();;
+//                    String userName = snapshot.child(userEmail.split("@")[0].replace('.','_')).child("name").getValue(String.class);
+//                    Toast.makeText(getContext(), userName, Toast.LENGTH_LONG).show();
+                    UserScoreClass user = snapshot.child(userEmail.split("@")[0].replace('.','_')).getValue(UserScoreClass.class);
+
+                    
+
+                    usrEmailEt.setText(user.getEmail());
+                    usrNameEt.setText(user.getName());
+                    usrScoreEt.setText(user.getScore());
+                    usrPhoneEt.setText(user.getPhone());
+
+//                    Toast.makeText(getContext(), user.getPhone(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.i("FAILED", "WHAT THE HELL");
+            }
+        });
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_profile, container, false);
         btnLogOut = v.findViewById(R.id.btnLogOut);
+        usrEmailEt = v.findViewById(R.id.userEmail);
+        usrNameEt = v.findViewById(R.id.userName);
+        usrPhoneEt = v.findViewById(R.id.userPhone);
+        usrScoreEt = v.findViewById(R.id.userScore);
+
         mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null){
+            Log.i("The current user is ready", "onCreateView: ready");
+            String EMAIL= mAuth.getCurrentUser().getEmail();
+//            Toast.makeText(getContext(), EMAIL, Toast.LENGTH_SHORT).show();
+            getUser();
+        }
 
         btnLogOut.setOnClickListener(view ->{
             mAuth.signOut();

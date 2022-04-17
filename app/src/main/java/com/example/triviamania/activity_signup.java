@@ -18,8 +18,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -59,14 +63,16 @@ public class activity_signup extends AppCompatActivity {
                 String confPass = etConfPass.getText().toString();
                 String name = etName.getText().toString();
                 String Phone = phone.getText().toString();
-                if(pass.equals(confPass)){
+                if(Phone.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Enter Phone Number", Toast.LENGTH_SHORT).show();
+                }
+                else if(pass.equals(confPass)){
                     // Write a message to the database
                     rootNode = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/");
                     reference = rootNode.getReference("users");
 
 
-                    UserScoreClass user = new UserScoreClass(name, email, score);
-
+                    UserScoreClass user = new UserScoreClass(name, email, score, Phone);
 
                     createUser(user, Phone);
                 } else {
@@ -81,6 +87,54 @@ public class activity_signup extends AppCompatActivity {
             });
         }
 
+        private void isUser(UserScoreClass userScore, String email, String password) {
+
+            DatabaseReference ref = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users");
+            Query checkUser = ref.orderByChild("phone").equalTo(userScore.getPhone());
+
+            checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Log.d("dataCheck", "onDataChange: AYEEEEEEE DATA CHECK");
+                    if(snapshot.exists()) {
+                        String detailsFromDb = snapshot.child(userScore.getEmail()).child("phone").getValue(String.class);
+
+                        if(detailsFromDb.equals(userScore.getPhone())) {
+
+                            Log.d("dataCheck", "onDataChange: MIL GYA DATA CHECK");
+                            Toast.makeText(activity_signup.this, "User Already Exists", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            Log.d("dataCheck", "onDataChange: AYEEEEEEE bas phone CHECK");
+                            Toast.makeText(activity_signup.this, "Phone Number Already Taken", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+
+                        Log.d("dataCheck", "onDataChange: BANA DE USER");
+                        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    Toast.makeText(activity_signup.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+                                    reference.child(userScore.getPhone()).setValue(userScore);
+                                    startActivity(new Intent(activity_signup.this, activity_login.class));
+                                }else{
+                                    Toast.makeText(activity_signup.this, "Registration Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+        }
+
         private void createUser(UserScoreClass userScore, String Phone){
             String email = etRegEmail.getText().toString();
             String password = etRegPassword.getText().toString();
@@ -92,12 +146,12 @@ public class activity_signup extends AppCompatActivity {
                 etRegPassword.setError("Password cannot be empty");
                 etRegPassword.requestFocus();
             }else{
-                mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
+                            reference.child(userScore.getEmail().split("@")[0].replace('.','_')).setValue(userScore);
                             Toast.makeText(activity_signup.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-                            reference.child(Phone).setValue(userScore);
                             startActivity(new Intent(activity_signup.this, activity_login.class));
                         }else{
                             Toast.makeText(activity_signup.this, "Registration Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
