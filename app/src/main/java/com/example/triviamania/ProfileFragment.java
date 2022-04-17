@@ -104,7 +104,7 @@ public class ProfileFragment extends Fragment {
 //                    Toast.makeText(getContext(), userName, Toast.LENGTH_LONG).show();
                     UserScoreClass user = snapshot.child(userEmail.split("@")[0].replace('.','_')).getValue(UserScoreClass.class);
 
-                    
+
 
                     usrEmailEt.setText(user.getEmail());
                     usrNameEt.setText(user.getName());
