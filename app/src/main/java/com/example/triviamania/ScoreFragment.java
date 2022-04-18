@@ -1,12 +1,26 @@
 package com.example.triviamania;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +69,58 @@ public class ScoreFragment extends Fragment {
         }
     }
 
+
+    private ScoreCardAdapter listAdapter;
+    private ArrayList<ScoreCard> scoreCardArrayList = new ArrayList<>();
+    private RecyclerView recycler;
+
+    private void updateScores() {
+        DatabaseReference ref = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users");
+        Query getScoreQuery = ref.orderByChild("score");
+        getScoreQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap: snapshot.getChildren()) {
+                    UserScoreClass user = snap.getValue(UserScoreClass.class);
+                    String userName = user.getEmail().split("@")[0].replace('.','_');
+                    scoreCardArrayList.add(new ScoreCard(userName, user.getScore()));
+                    listAdapter.notifyDataSetChanged();
+
+                    Log.d("what", "onDataChange: "+userName);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_score, container, false);
+        View v = inflater.inflate(R.layout.fragment_score, container, false);
+
+        recycler = v.findViewById(R.id.recycler_view);
+
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recycler.setLayoutManager(layoutManager);
+
+        listAdapter = new ScoreCardAdapter(getContext(), scoreCardArrayList);
+        recycler.setAdapter(listAdapter);
+
+        //Load the date from the network or other resources
+        //into the array list asynchronously
+
+//        scoreCardArrayList.add(new ScoreCard("Daniel Shiffman", "10"));
+//        scoreCardArrayList.add(new ScoreCard("Jhon Doe", "20"));
+//        scoreCardArrayList.add(new ScoreCard("Jane Doe", "30"));
+        updateScores();
+
+
+        return v;
     }
 }

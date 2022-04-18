@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +44,7 @@ public class ProfileFragment extends Fragment {
     FirebaseAuth mAuth;
     String userEmail;
     TextView usrNameEt, usrPhoneEt, usrEmailEt, usrScoreEt;
+    ImageView imageView;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -131,8 +134,13 @@ public class ProfileFragment extends Fragment {
         usrNameEt = v.findViewById(R.id.userName);
         usrPhoneEt = v.findViewById(R.id.userPhone);
         usrScoreEt = v.findViewById(R.id.userScore);
+        imageView = v.findViewById(R.id.circle_img);
 
         mAuth = FirebaseAuth.getInstance();
+
+        // Add a user image
+//        Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(imageView);
+
 
         if (mAuth.getCurrentUser() != null){
             Log.i("The current user is ready", "onCreateView: ready");
