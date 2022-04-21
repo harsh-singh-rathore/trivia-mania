@@ -4,21 +4,66 @@ public class Questionaire {
     String category;
     String correct_answer;
     String difficulty;
-    String [] incororrect_answers;
+    String Optiona, Optionb, Optionc, Optiond;
     String question;
     String type;
 
     public Questionaire() {
 
     }
+    public Questionaire(Questionaire C) {
+        C.formatQ();
+        this.question = C.question;
+    }
+    public void formatQ() {
+        question.replaceAll("&quot;", "\"").replaceAll("&amp;","&").replaceAll("&gt;",">").replaceAll("&lt;","<").replaceAll("&#039;", "'");
+    }
 
-    public Questionaire(String category, String correct_answer, String difficulty, String[] incororrect_answers, String question, String type) {
+    public Questionaire(String category, String correct_answer, String difficulty, String optiona, String optionb, String optionc, String optiond, String question, String type) {
         this.category = category;
         this.correct_answer = correct_answer;
         this.difficulty = difficulty;
-        this.incororrect_answers = incororrect_answers;
-        this.question = question;
+        this.Optiona = optiona;
+        this.Optionb = optionb;
+        this.Optionc = optionc;
+        this.Optiond = optiond;
+
+        this.question = question.replaceAll("&quot;", "\"");
         this.type = type;
+    }
+    public Boolean checkRightAns(String optionSelected) {
+        return correct_answer.equals(optionSelected);
+    }
+    public String getOptiona() {
+        return Optiona;
+    }
+
+    public void setOptiona(String optiona) {
+        Optiona = optiona;
+    }
+
+    public String getOptionb() {
+        return Optionb;
+    }
+
+    public void setOptionb(String optionb) {
+        Optionb = optionb;
+    }
+
+    public String getOptionc() {
+        return Optionc;
+    }
+
+    public void setOptionc(String optionc) {
+        Optionc = optionc;
+    }
+
+    public String getOptiond() {
+        return Optiond;
+    }
+
+    public void setOptiond(String optiond) {
+        Optiond = optiond;
     }
 
     public String getCategory() {
@@ -43,14 +88,6 @@ public class Questionaire {
 
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
-    }
-
-    public String[] getIncororrect_answers() {
-        return incororrect_answers;
-    }
-
-    public void setIncororrect_answers(String[] incororrect_answers) {
-        this.incororrect_answers = incororrect_answers;
     }
 
     public String getQuestion() {
