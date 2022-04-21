@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".google_activity"
+            android:exported="false" />
+        <activity
             android:name=".quizActivity"
             android:exported="false" />
         <activity

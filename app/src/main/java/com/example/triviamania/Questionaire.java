@@ -19,6 +19,10 @@ public class Questionaire {
         question.replaceAll("&quot;", "\"").replaceAll("&amp;","&").replaceAll("&gt;",">").replaceAll("&lt;","<").replaceAll("&#039;", "'");
     }
 
+    public String getRightAnswer() {
+        return correct_answer;
+    }
+
     public Questionaire(String category, String correct_answer, String difficulty, String optiona, String optionb, String optionc, String optiond, String question, String type) {
         this.category = category;
         this.correct_answer = correct_answer;

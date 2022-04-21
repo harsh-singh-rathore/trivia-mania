@@ -100,17 +100,11 @@ public class activity_signup extends AppCompatActivity {
                         String detailsFromDb = snapshot.child(userScore.getEmail()).child("phone").getValue(String.class);
 
                         if(detailsFromDb.equals(userScore.getPhone())) {
-
-                            Log.d("dataCheck", "onDataChange: MIL GYA DATA CHECK");
                             Toast.makeText(activity_signup.this, "User Already Exists", Toast.LENGTH_SHORT).show();
                         } else {
-
-                            Log.d("dataCheck", "onDataChange: AYEEEEEEE bas phone CHECK");
                             Toast.makeText(activity_signup.this, "Phone Number Already Taken", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-
-                        Log.d("dataCheck", "onDataChange: BANA DE USER");
                         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {

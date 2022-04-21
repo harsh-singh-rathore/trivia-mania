@@ -103,15 +103,15 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     String userEmail = mAuth.getCurrentUser().getEmail();;
-//                    String userName = snapshot.child(userEmail.split("@")[0].replace('.','_')).child("name").getValue(String.class);
-//                    Toast.makeText(getContext(), userName, Toast.LENGTH_LONG).show();
                     UserScoreClass user = snapshot.child(userEmail.split("@")[0].replace('.','_')).getValue(UserScoreClass.class);
 
 
 
                     usrEmailEt.setText(user.getEmail());
                     usrNameEt.setText(user.getName());
-                    usrScoreEt.setText(user.getScore());
+                    String score = Float.toString(100*Integer.parseInt(user.getScore())/(float)Integer.parseInt(user.getNoOfQues()));
+
+                    usrScoreEt.setText(score);
                     usrPhoneEt.setText(user.getPhone());
 
 //                    Toast.makeText(getContext(), user.getPhone(), Toast.LENGTH_LONG).show();
