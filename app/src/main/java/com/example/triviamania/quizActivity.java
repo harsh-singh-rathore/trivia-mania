@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,8 +35,10 @@ public class quizActivity extends AppCompatActivity {
     public ArrayList<String> optionList = new ArrayList<>();
     customOptionList optionListAdapter;
     Questionaire curQuestion;
-    FloatingActionButton floatingButton;
+    Button floatingButton;
     TextView questionTextView;
+    String googleSearch;
+    TextView linkTextView;
 
 
     public void assignQuestions(int i, ArrayList<Questionaire> questionaireArrayList) {
@@ -71,9 +74,11 @@ public class quizActivity extends AppCompatActivity {
         options = findViewById(R.id.optionsList);
         questionTextView = findViewById(R.id.questionTextView);
         floatingButton = findViewById(R.id.floatingButton);
+        linkTextView = findViewById(R.id.linkTextView);
 
         Intent intent = getIntent();
         String difficulty = intent.getStringExtra("difficulty");
+
 
 
         // Getting questions here
@@ -90,18 +95,29 @@ public class quizActivity extends AppCompatActivity {
 
                     }
                 }
+                googleSearch = "https://en.wikipedia.org/w/index.php?title=Special:Search&search="+questionaireArrayList.get(0).getRightAnswer().replaceAll("\\s+","+");
                 // start code here
 
                 optionList.add(difficulty);
                 optionListAdapter = new customOptionList(quizActivity.this, optionList);
                 options.setAdapter(optionListAdapter);
 
-                String googleSearch = "https://www.google.com/search?q="+questionaireArrayList.get(questions_attempted).getRightAnswer().replaceAll("\\s+","+");
-                Log.i("GOogle", "onItemClick: "+googleSearch);
+                floatingButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(), google_activity.class);
+                        intent.putExtra("uri", linkTextView.getText().toString());
+                        Log.d("ESTRING", "onClick: "+linkTextView.getText().toString());
+                        startActivity(intent);
+                    }
+                });
+
 
                 options.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        googleSearch = "https://en.wikipedia.org/w/index.php?title=Special:Search&search="+questionaireArrayList.get(questions_attempted+1).getRightAnswer().replaceAll("\\s+","+");
+                        linkTextView.setText(googleSearch);
                         if(questionaireArrayList.get(questions_attempted).checkRightAns(optionList.get(i))) {
                             score_of10+=1;
                             Toast.makeText(getApplicationContext(), "Correct Answer", Toast.LENGTH_SHORT).show();
@@ -113,7 +129,7 @@ public class quizActivity extends AppCompatActivity {
                         if(questions_attempted == 10){
                             FirebaseAuth mAuth = FirebaseAuth.getInstance();
                             if (mAuth.getCurrentUser() != null){
-                                String EMAIL= mAuth.getCurrentUser().getEmail();
+                                String EMAIL = mAuth.getCurrentUser().getEmail();
 
                                 DatabaseReference ref = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users");
                                 Query checkUser = ref.orderByChild("email").equalTo(EMAIL);

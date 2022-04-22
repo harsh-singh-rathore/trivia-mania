@@ -10,6 +10,9 @@
         <entry key="..\:/JavaAndroid/triviaMania/app/src/main/res/drawable/ic_baseline_questionmark_24.xml" value="0.137" />
         <entry key="..\:/JavaAndroid/triviaMania/app/src/main/res/drawable/ic_baseline_score_24.xml" value="0.21" />
         <entry key="..\:/JavaAndroid/triviaMania/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.341" />
+        <entry key="..\:/JavaAndroid/triviaMania/app/src/main/res/drawable/round_button.xml" value="0.166" />
+        <entry key="..\:/JavaAndroid/triviaMania/app/src/main/res/layout/activity_add_question.xml" value="0.24456521739130435" />
+        <entry key="..\:/JavaAndroid/triviaMania/app/src/main/res/layout/activity_flash_screen.xml" value="0.1" />
         <entry key="..\:/JavaAndroid/triviaMania/app/src/main/res/layout/activity_google.xml" value="0.1265625" />
         <entry key="..\:/JavaAndroid/triviaMania/app/src/main/res/layout/activity_login.xml" value="0.18541666666666667" />
         <entry key="..\:/JavaAndroid/triviaMania/app/src/main/res/layout/activity_main.xml" value="0.33" />

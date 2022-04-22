@@ -109,8 +109,11 @@ public class ProfileFragment extends Fragment {
 
                     usrEmailEt.setText(user.getEmail());
                     usrNameEt.setText(user.getName());
-                    String score = Float.toString(100*Integer.parseInt(user.getScore())/(float)Integer.parseInt(user.getNoOfQues()));
 
+                    String score = Float.toString(100*Integer.parseInt(user.getScore())/(float)Integer.parseInt(user.getNoOfQues()));
+                    if(Integer.parseInt(user.getNoOfQues()) == 0) {
+                        score = "0";
+                    }
                     usrScoreEt.setText(score);
                     usrPhoneEt.setText(user.getPhone());
 
