@@ -35,6 +35,19 @@ public class Questionaire {
         this.question = question.replaceAll("&quot;", "\"");
         this.type = type;
     }
+    public Questionaire(String category, String difficulty, String optiona, String optionb, String optionc, String optiond, String question) {
+        this.category = category;
+        this.correct_answer = optiona;
+        this.difficulty = difficulty;
+        this.Optiona = optiona;
+        this.Optionb = optionb;
+        this.Optionc = optionc;
+        this.Optiond = optiond;
+
+        this.question = question.replaceAll("&quot;", "\"");
+        this.type = "multiple";
+    }
+
     public Boolean checkRightAns(String optionSelected) {
         return correct_answer.equals(optionSelected);
     }

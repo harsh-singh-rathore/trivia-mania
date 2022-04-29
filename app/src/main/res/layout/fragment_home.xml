@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,35 +10,48 @@
     android:padding="16dp">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Select the difficulty level to start the quiz"
         style="@style/headerTextStyle"
         android:layout_weight="0.5"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/trivia_illustration" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:paddingLeft="10dp"
         android:text="Difficulty"
         android:textSize="25sp"
-        android:layout_weight="0.2"
-        android:paddingLeft="10dp"/>
+        android:translationY="30dp" />
+
     <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/difficultySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/format_edit_text"
+        android:layout_weight="0.2"
         android:autofillHints="difficultyLevel"
-        android:layout_weight="0.2" />
+        android:translationY="30dp"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
     <Button
+        android:id="@+id/startQuizButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/startQuizButton"
         android:layout_gravity="center"
         android:background="@drawable/curved_button"
+        android:padding="16dp"
         android:text="Start Quiz"
-        android:padding="16dp"/>
-
-
+        android:translationY="80dp" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

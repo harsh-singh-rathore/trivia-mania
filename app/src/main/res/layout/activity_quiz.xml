@@ -8,12 +8,36 @@
     android:padding="16dp"
     android:orientation="vertical"
     android:weightSum="5">
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Trivia Quiz"
         style="@style/headerTextStyle"
-        android:layout_weight="0.30"/>
+        android:gravity="left"
+        android:layout_weight="2"/>
+        <TextView
+            android:id="@+id/noOfQues"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/headerTextStyle"
+            android:text="1/10"
+            android:layout_weight="1"
+            android:textColor="#0cf520"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/quizLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4.5"
+        android:weightSum="4"
+        android:orientation="vertical"
+        android:visibility="visible">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,15 +56,31 @@
         android:layout_height="wrap_content"
         android:id="@+id/optionsList"
         android:layout_weight="2.5"/>
-     <Button
-         android:id="@+id/floatingButton"
-         android:layout_width="80dp"
-         android:layout_height="80dp"
-         android:text="\?"
-         android:textSize="24sp"
-         android:layout_gravity="bottom|right"
-         android:background="@drawable/round_button"
-         />
+
+    <Button
+        android:id="@+id/floatingButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/round_button"
+        android:text="\?"
+        android:textSize="24sp"
+        android:translationY="20dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/pieChartLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4.5"
+        android:weightSum="4"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <com.anychart.AnyChartView
+            android:id="@+id/chart"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/linkTextView"
         android:layout_width="0dp"

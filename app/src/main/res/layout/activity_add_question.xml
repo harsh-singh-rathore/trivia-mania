@@ -4,6 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".add_question">
+    tools:context=".add_question"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:layout_weight="6">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:text="Add Question"
+        style="@style/headerTextStyle"
+        android:layout_weight="0.25"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Difficulty"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/difficultySpinner"
+        android:autofillHints="difficultyLevel"
+        android:layout_weight="0.25" />
+
+    <EditText
+        android:id="@+id/questionEV"
+        android:layout_width="match_parent"
+        android:background="@drawable/format_edit_text"
+        android:layout_height="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="0.25"
+        android:hint="Question"
+        android:inputType="text"
+        />
+    <EditText
+        android:id="@+id/optionA"
+        android:background="@drawable/format_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="0.25"
+        android:hint="Option A / Correct Answer"
+        android:inputType="text"/>
+    <EditText
+        android:id="@+id/optionB"
+        android:background="@drawable/format_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="0.25"
+        android:hint="Option B"
+        android:inputType="text"/>
+    <EditText
+        android:id="@+id/optionC"
+        android:background="@drawable/format_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="0.25"
+        android:hint="Option C"
+        android:inputType="text"/>
+    <EditText
+        android:id="@+id/optionD"
+        android:background="@drawable/format_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="0.25"
+        android:hint="Option D"
+        android:inputType="text"/>
+    <Button
+        android:id="@+id/addQues"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Question"
+        android:background="@drawable/curved_button"
+        android:padding="16dp"
+        android:layout_gravity="center"/>
+
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

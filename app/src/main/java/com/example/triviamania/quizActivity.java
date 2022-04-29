@@ -10,10 +10,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Pie;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class quizActivity extends AppCompatActivity {
 
@@ -39,6 +46,9 @@ public class quizActivity extends AppCompatActivity {
     TextView questionTextView;
     String googleSearch;
     TextView linkTextView;
+    TextView noOfQuestionTV;
+    AnyChartView anyChartView;
+    LinearLayout quiz, chart;
 
 
     public void assignQuestions(int i, ArrayList<Questionaire> questionaireArrayList) {
@@ -75,6 +85,10 @@ public class quizActivity extends AppCompatActivity {
         questionTextView = findViewById(R.id.questionTextView);
         floatingButton = findViewById(R.id.floatingButton);
         linkTextView = findViewById(R.id.linkTextView);
+        noOfQuestionTV = findViewById(R.id.noOfQues);
+        anyChartView = findViewById(R.id.chart);
+        chart = findViewById(R.id.pieChartLayout);
+        quiz = findViewById(R.id.quizLinearLayout);
 
         Intent intent = getIntent();
         String difficulty = intent.getStringExtra("difficulty");
@@ -107,7 +121,6 @@ public class quizActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent intent = new Intent(getApplicationContext(), google_activity.class);
                         intent.putExtra("uri", linkTextView.getText().toString());
-                        Log.d("ESTRING", "onClick: "+linkTextView.getText().toString());
                         startActivity(intent);
                     }
                 });
@@ -120,11 +133,13 @@ public class quizActivity extends AppCompatActivity {
                         linkTextView.setText(googleSearch);
                         if(questionaireArrayList.get(questions_attempted).checkRightAns(optionList.get(i))) {
                             score_of10+=1;
+
                             Toast.makeText(getApplicationContext(), "Correct Answer", Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(getApplicationContext(), "Wrong Answer", Toast.LENGTH_SHORT).show();
                         }
                         questions_attempted+=1;
+                        noOfQuestionTV.setText(Integer.toString(questions_attempted+1)+"/10");
                         assignQuestions(questions_attempted, questionaireArrayList);
                         if(questions_attempted == 10){
                             FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -145,7 +160,18 @@ public class quizActivity extends AppCompatActivity {
                                             user.setScore(Integer.toString(Integer.parseInt(user.getScore())+score_of10));
                                             DatabaseReference reference = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users");
                                             reference.child(user.getEmail().split("@")[0].replace('.','_')).setValue(user);
-                                            finish();
+
+                                            Pie pie = AnyChart.pie();
+                                            String [] wrong = {"right", "wrong", "skip"};
+                                            List<DataEntry> dataEntries = new ArrayList<>();
+                                            quiz.setVisibility(View.GONE);
+                                            chart.setVisibility(View.VISIBLE);
+                                            noOfQuestionTV.setVisibility(View.GONE);
+                                            dataEntries.add(new ValueDataEntry(wrong[0], score_of10));
+                                            dataEntries.add(new ValueDataEntry(wrong[1], 10-score_of10));
+                                            dataEntries.add(new ValueDataEntry(wrong[2], 0));
+                                            pie.data(dataEntries);
+                                            anyChartView.setChart(pie);
                                         }
                                     }
                                     @Override

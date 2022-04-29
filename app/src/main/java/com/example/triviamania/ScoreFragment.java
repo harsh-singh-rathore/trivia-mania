@@ -82,13 +82,24 @@ public class ScoreFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snap: snapshot.getChildren()) {
                     UserScoreClass user = snap.getValue(UserScoreClass.class);
-                    String userName = user.getEmail().split("@")[0].replace('.','_');
-                    scoreCardArrayList.add(new ScoreCard(userName, user.getScore()));
-                    listAdapter.notifyDataSetChanged();
+                    String userName = user.getEmail().split("@")[0].replace('.', '_');
+                    String score = "0";
+                    Log.d("Score", "onDataChange: " + score);
+                    try {
+                        if (Integer.parseInt(user.getNoOfQues()) != 0) {
+                            score = Float.toString(100 * Integer.parseInt(user.getScore()) / (float) Integer.parseInt(user.getNoOfQues()));
+                        }
+                        scoreCardArrayList.add(new ScoreCard(userName, score));
+                        listAdapter.notifyDataSetChanged();
 
-                    Log.d("what", "onDataChange: "+userName);
+                        Log.d("what", "onDataChange: "+userName);
+                    }catch ( Exception e) {
+                        Log.d("Lmao exception", "onDataChange: "+e.toString());
+                    }
                 }
-            }
+
+
+                }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

@@ -145,6 +145,8 @@ public class activity_signup extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             reference.child(userScore.getEmail().split("@")[0].replace('.','_')).setValue(userScore);
+                            DatabaseReference preSc = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("prev_score/");
+                            preSc.child(userScore.getEmail().split("@")[0].replace('.','_')).push().setValue(new PrevScore());
                             Toast.makeText(activity_signup.this, "User registered successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(activity_signup.this, activity_login.class));
                         }else{

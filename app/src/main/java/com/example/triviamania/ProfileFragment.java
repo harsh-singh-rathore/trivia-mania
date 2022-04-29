@@ -43,7 +43,7 @@ public class ProfileFragment extends Fragment {
     Button btnLogOut;
     FirebaseAuth mAuth;
     String userEmail;
-    TextView usrNameEt, usrPhoneEt, usrEmailEt, usrScoreEt;
+    TextView usrNameEt, usrPhoneEt, usrEmailEt, usrScoreEt, addQuesTv;
     ImageView imageView;
 
 
@@ -138,6 +138,15 @@ public class ProfileFragment extends Fragment {
         usrPhoneEt = v.findViewById(R.id.userPhone);
         usrScoreEt = v.findViewById(R.id.userScore);
         imageView = v.findViewById(R.id.circle_img);
+        addQuesTv = v.findViewById(R.id.addQuesTextView);
+
+        addQuesTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), add_question.class);
+                startActivity(intent);
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
 

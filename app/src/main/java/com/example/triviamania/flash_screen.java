@@ -20,6 +20,6 @@ public class flash_screen extends AppCompatActivity {
                 startActivity(new Intent(flash_screen.this , MainActivity.class));
                 finish();
             }
-        },3000);
+        },500);
     }
 }

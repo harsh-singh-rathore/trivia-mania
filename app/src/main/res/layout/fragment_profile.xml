@@ -21,34 +21,30 @@
         android:text="Profile"
         style="@style/headerTextStyle"
         android:layout_weight="0.25"/>
-<androidx.cardview.widget.CardView
-        android:id="@+id/myCardView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:cardCornerRadius="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        >
-    <ImageView
+
+    <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/circle_img"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="80dp"
         android:src="@drawable/ic_baseline_person_24"
         android:layout_weight="1"
-        android:layout_gravity="center"/>
-</androidx.cardview.widget.CardView>
+        android:layout_gravity="center"
+        app:civ_border_color="#CFCFCF" />
+
     <TextView
         android:id="@+id/userName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="10dp"
+        android:layout_marginTop="30dp"
         android:text="Tanmay"
         android:layout_weight="0.40"
         style="@style/profileText"
-        android:gravity="center"/>
+        android:gravity="center"
+        />
     <TextView
         android:id="@+id/userPhone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="10dp"
         android:text="1234567890"
         android:layout_weight="0.40"
         style="@style/profileText"
@@ -56,7 +52,7 @@
     <TextView
         android:id="@+id/userEmail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="10dp"
         android:text="tanmay@gmail.com"
         android:layout_weight="0.40"
         style="@style/profileText"
@@ -64,7 +60,7 @@
     <TextView
         android:id="@+id/userScore"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="10dp"
         android:text="69"
         android:layout_weight="0.40"
         style="@style/profileText"
@@ -77,10 +73,17 @@
         android:background="@drawable/curved_button"
         android:padding="16dp"
         android:layout_margin="16dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:translationY="30dp"/>
+
     <TextView
+        android:id="@+id/addQuesTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-
+        android:layout_weight="1"
+        android:text="Click here to add question"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textColor="@color/blue_dark"
+        android:translationY="50dp"/>
 </androidx.appcompat.widget.LinearLayoutCompat>
