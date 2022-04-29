@@ -170,6 +170,9 @@ public class quizActivity extends AppCompatActivity {
                                             dataEntries.add(new ValueDataEntry(wrong[0], score_of10));
                                             dataEntries.add(new ValueDataEntry(wrong[1], 10-score_of10));
                                             dataEntries.add(new ValueDataEntry(wrong[2], 0));
+
+                                            DatabaseReference preSc = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("prev_score/");
+                                            preSc.child(EMAIL.split("@")[0].replace('.','_')).push().setValue(new PrevScore(Integer.toString(score_of10), Integer.toString(0), Integer.toString(10-score_of10)));
                                             pie.data(dataEntries);
                                             anyChartView.setChart(pie);
                                         }

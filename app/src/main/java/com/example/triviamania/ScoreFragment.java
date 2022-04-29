@@ -13,6 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Cartesian;
+import com.anychart.core.cartesian.series.Column;
+import com.anychart.enums.Anchor;
+import com.anychart.enums.HoverMode;
+import com.anychart.enums.Position;
+import com.anychart.enums.TooltipPositionMode;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +31,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,6 +88,7 @@ public class ScoreFragment extends Fragment {
     private ScoreCardAdapter listAdapter;
     private ArrayList<ScoreCard> scoreCardArrayList = new ArrayList<>();
     private RecyclerView recycler;
+    AnyChartView anyChartView;
 
     private void updateScores() {
         DatabaseReference ref = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users");
@@ -90,15 +106,20 @@ public class ScoreFragment extends Fragment {
                             score = Float.toString(100 * Integer.parseInt(user.getScore()) / (float) Integer.parseInt(user.getNoOfQues()));
                         }
                         scoreCardArrayList.add(new ScoreCard(userName, score));
-                        listAdapter.notifyDataSetChanged();
 
                         Log.d("what", "onDataChange: "+userName);
                     }catch ( Exception e) {
                         Log.d("Lmao exception", "onDataChange: "+e.toString());
                     }
+                    Collections.sort(scoreCardArrayList, new Comparator<ScoreCard>() {
+                        @Override
+                        public int compare(ScoreCard scoreCard, ScoreCard t1) {
+                            return -1* scoreCard.getScore().compareTo(t1.getScore());
+                        }
+                    });
+                    listAdapter.notifyDataSetChanged();
+
                 }
-
-
                 }
 
             @Override
@@ -106,6 +127,59 @@ public class ScoreFragment extends Fragment {
 
             }
         });
+    }
+    void setBarGraph(String email) {
+        DatabaseReference ref = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("prev_score/"+email.split("@")[0].replace('.','_'));
+        Query getScoreQuery = ref.orderByKey();
+        getScoreQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Cartesian cartesian = AnyChart.column();
+                List<DataEntry> data = new ArrayList<>();
+                List<PrevScore> prevScoreList = new ArrayList<>();
+                for(DataSnapshot snap: snapshot.getChildren()) {
+                    PrevScore prevScore = snap.getValue(PrevScore.class);
+                    prevScoreList.add(prevScore);
+                }
+
+                int n = prevScoreList.size() > 5? prevScoreList.size()-5 : 0;
+                for(int i=n; i<prevScoreList.size(); i++) {
+                    data.add(new ValueDataEntry(Integer.toString(i-n+1), Integer.parseInt(prevScoreList.get(i).getRight())));
+                }
+
+                Column column = cartesian.column(data);
+
+                column.tooltip()
+                        .titleFormat("{%X}")
+                        .position(Position.CENTER_BOTTOM)
+                        .anchor(Anchor.CENTER_BOTTOM)
+                        .offsetX(0d)
+                        .offsetY(5d)
+                        .format("${%Value}{groupsSeparator: }");
+
+                cartesian.animation(true);
+                cartesian.title("Score of the last 5 attempts");
+
+                cartesian.yScale().minimum(0d);
+
+                cartesian.yAxis(0).labels();
+
+                cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
+                cartesian.interactivity().hoverMode(HoverMode.BY_X);
+
+                cartesian.xAxis(0).title("Attempt");
+                cartesian.yAxis(0).title("Score");
+
+                anyChartView.setChart(cartesian);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     @Override
@@ -115,6 +189,13 @@ public class ScoreFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_score, container, false);
 
         recycler = v.findViewById(R.id.recycler_view);
+        anyChartView = v.findViewById(R.id.barGraph);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            String email = mAuth.getCurrentUser().getEmail();
+            setBarGraph(email);
+        }
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
