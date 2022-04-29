@@ -154,8 +154,7 @@ public class ScoreFragment extends Fragment {
                         .position(Position.CENTER_BOTTOM)
                         .anchor(Anchor.CENTER_BOTTOM)
                         .offsetX(0d)
-                        .offsetY(5d)
-                        .format("${%Value}{groupsSeparator: }");
+                        .offsetY(5d);
 
                 cartesian.animation(true);
                 cartesian.title("Score of the last 5 attempts");

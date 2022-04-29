@@ -2,23 +2,27 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_margin="15dp"
+    android:background="@drawable/curved_button">
     <TextView
         android:id="@+id/scoreUserName"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="harshSinghRathore"
         android:textSize="20sp"
         android:layout_weight="3"
         android:padding="5dp"
-        android:textAlignment="center"/>
+        android:gravity="left"
+        />
     <TextView
         android:id="@+id/scoreUserScore"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="64"
         android:textSize="20sp"
-        android:textAlignment="center"
+        android:gravity="right"
         android:layout_weight="1"
-        android:padding="5dp"/>
+        android:padding="5dp"
+        />
 </androidx.appcompat.widget.LinearLayoutCompat>
