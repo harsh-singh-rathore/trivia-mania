@@ -2,7 +2,11 @@ package com.example.triviamania;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -161,6 +165,18 @@ public class quizActivity extends AppCompatActivity {
                                             DatabaseReference reference = FirebaseDatabase.getInstance("https://traviamania-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users");
                                             reference.child(user.getEmail().split("@")[0].replace('.','_')).setValue(user);
 
+//                                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext());
+//                                            mBuilder.setSmallIcon(R.drawable.app_logo);
+//                                            mBuilder.setContentTitle("Notification Alert, Click Me!");
+//                                            mBuilder.setContentText("Hi, This is Android Notification Detail!");
+//
+//                                            Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+//                                            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                                            mBuilder.setContentIntent(contentIntent);
+//                                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//// notificationID allows you to update the notification later on.
+//                                            mNotificationManager.notify(1, mBuilder.build());
                                             Pie pie = AnyChart.pie();
                                             String [] wrong = {"right", "wrong", "skip"};
                                             List<DataEntry> dataEntries = new ArrayList<>();
